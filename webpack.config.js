@@ -9,18 +9,40 @@ module.exports = {
   mode: isProd ? 'production' : 'development',
   output: {
     path: outputDir,
-    filename: 'Index.js'
+    filename: 'Index.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      inject: false
-    })
+      inject: false,
+    }),
   ],
   devServer: {
     compress: true,
     contentBase: outputDir,
     port: process.env.PORT || 8000,
-    historyApiFallback: true
-  }
+    historyApiFallback: true,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+          },
+        ],
+      },
+    ],
+  },
 };
