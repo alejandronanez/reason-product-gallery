@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.trans {
+  transition-property: all;
+}
+
+.trans-bg {
+  transition-property: background-color;
+}
+
+.trans-text {
+  transition-property: color;
+}
+
+.trans-slow {
+  transition-duration: .5s;
+}
+
+.trans-slower {
+  transition-duration: .75s;
+}
+
+.trans-fast {
+  transition-duration: .15s;
+}
+
+.trans-faster {
+  transition-duration: .075s;
+}

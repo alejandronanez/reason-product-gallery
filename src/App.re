@@ -5,26 +5,32 @@ let make = () => {
       <SectionContainer> <Navigation /> </SectionContainer>
     </div>
     <SectionContainer>
-      <section>
-        <aside>
+      <section className="flex mt-3">
+        <aside className="md:w-1/3">
           <nav>
-            <h2> "All categories"->React.string </h2>
+            <h2 className="text-xl font-extrabold">
+              "All categories"->React.string
+            </h2>
             <ul>
-              <li> "Item one"->React.string </li>
-              <li> "Item two"->React.string </li>
-              <li> "Item three"->React.string </li>
+              <NavigationPill> "Item one"->React.string </NavigationPill>
+              <NavigationPill> "Item two"->React.string </NavigationPill>
+              <NavigationPill> "Item three"->React.string </NavigationPill>
             </ul>
           </nav>
           <nav>
-            <h2> "Filters"->React.string </h2>
+            <h2 className="text-xl font-extrabold mt-3">
+              "Filters"->React.string
+            </h2>
             <ul>
-              <li> "Min"->React.string </li>
-              <li> "Max"->React.string </li>
+              <NavigationPill> "Min"->React.string </NavigationPill>
+              <NavigationPill> "Max"->React.string </NavigationPill>
             </ul>
           </nav>
         </aside>
-        <main>
-          <h1> "Selected section"->React.string </h1>
+        <main className="md:w-2/3">
+          <h1 className="text-2xl font-extrabold">
+            "Selected section"->React.string
+          </h1>
           <ul>
             <li> "Item #1"->React.string </li>
             <li> "Item #2"->React.string </li>

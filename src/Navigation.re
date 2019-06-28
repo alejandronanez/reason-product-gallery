@@ -1,7 +1,7 @@
 [@react.component]
 let make = () =>
-  <nav className="py-4 px-3 lg:px-0 flex flex-wrap justify-between">
-    <div className="mr-0">
+  <nav className="py-4 flex flex-wrap justify-between">
+    <div className="md:w-1/3">
       <h1 className="font-bold text-2xl">
         "The awesome store"->React.string
       </h1>
