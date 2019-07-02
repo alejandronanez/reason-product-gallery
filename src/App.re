@@ -1,7 +1,7 @@
 module CounterDisplay = {
   [@react.component]
   let make = () => {
-    let count = CategoriesContext.useCountState();
+    let count = CategoriesContext.CategoriesContext.useCountState();
     <div> {count.count->string_of_int->React.string} </div>;
   };
 };
@@ -9,8 +9,9 @@ module CounterDisplay = {
 module CounterButton = {
   [@react.component]
   let make = () => {
-    let dispatch = CategoriesContext.useCountDispatch();
-    <button onClick={_ => dispatch(CategoriesContext.Increment)}>
+    let dispatch = CategoriesContext.CategoriesContext.useCountDispatch();
+    <button
+      onClick={_ => dispatch(CategoriesContext.CategoriesContext.Increment)}>
       "Count"->React.string
     </button>;
   };
