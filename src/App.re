@@ -1,15 +1,19 @@
-let counterDisplay = () => {
-  let count = CategoriesContext.useCountState();
-
-  <div> {count.count->string_of_int->React.string} </div>;
+module CounterDisplay = {
+  [@react.component]
+  let make = () => {
+    let count = CategoriesContext.useCountState();
+    <div> {count.count->string_of_int->React.string} </div>;
+  };
 };
 
-let counterButton = () => {
-  let dispatch = CategoriesContext.useCountDispatch();
-
-  <button onClick={_ => dispatch(CategoriesContext.Increment)}>
-    "Count"->React.string
-  </button>;
+module CounterButton = {
+  [@react.component]
+  let make = () => {
+    let dispatch = CategoriesContext.useCountDispatch();
+    <button onClick={_ => dispatch(CategoriesContext.Increment)}>
+      "Count"->React.string
+    </button>;
+  };
 };
 
 [@react.component]
@@ -18,8 +22,8 @@ let make = () => {
     <div className="flex bg-gray-800 text-gray-100">
       <SectionContainer> <Navigation /> </SectionContainer>
     </div>
-    {counterDisplay()}
-    {counterButton()}
+    <CounterDisplay />
+    <CounterButton />
     <SectionContainer>
       <section className="flex mt-3">
         <aside className="md:w-1/3">
