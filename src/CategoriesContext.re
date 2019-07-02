@@ -1,43 +1,81 @@
-module CategoriesContext = {
+module type CategoriesContext = {
   type action =
-    | Increment
-    | Decrement;
+    | SelectCategory;
 
-  type state = {count: int};
-
-  let initialState = {count: 0};
-  let countReducer = (state, action) =>
-    switch (action) {
-    | Increment => {count: state.count + 1}
-    | Decrement => {count: state.count - 1}
-    };
-
-  let countStateContext = React.createContext(initialState);
-  let countDispatchContext = React.createContext(_ => ());
-  let useCountState = () => React.useContext(countStateContext);
-  let useCountDispatch = () => React.useContext(countDispatchContext);
-
-  module CountStateProvider = {
-    let makeProps = (~value, ~children, ()) => {
-      "value": value,
-      "children": children,
-    };
-    let make = React.Context.provider(countStateContext);
+  type category = {
+    id: string,
+    category: string,
+  };
+  type state = {
+    categories: list(category),
+    selectedCategory: option(category),
   };
 
-  module CountDispatchProvider = {
+  let useCategoriesState: unit => state;
+  let useCategoriesDispatch: (unit, action) => unit;
+
+  [@bs.obj]
+  external makeProps:
+    (~children: 'children, ~key: string=?, unit) => {. "children": 'children} =
+    "";
+  let make: {. "children": React.element} => React.element;
+};
+
+module CategoriesContext: CategoriesContext = {
+  type action =
+    | SelectCategory;
+
+  type category = {
+    id: string,
+    category: string,
+  };
+  type state = {
+    categories: list(category),
+    selectedCategory: option(category),
+  };
+
+  let initialState = {
+    categories: [
+      {id: "123", category: "Food"},
+      {id: "456", category: "Drinks"},
+      {id: "789", category: "Toys"},
+    ],
+    selectedCategory: None,
+  };
+  let reducer = (state, action) =>
+    switch (action) {
+    | SelectCategory => state
+    };
+
+  let categoriesStateContext = React.createContext(initialState);
+  let categoriesDispatchContext = React.createContext(_ => ());
+  let useCategoriesState = () => React.useContext(categoriesStateContext);
+  let useCategoriesDispatch = () =>
+    React.useContext(categoriesDispatchContext);
+
+  module CategoriesStateProvider = {
     let makeProps = (~value, ~children, ()) => {
       "value": value,
       "children": children,
     };
-    let make = React.Context.provider(countDispatchContext);
+    let make = React.Context.provider(categoriesStateContext);
+  };
+
+  module CategoriesDispatchProvider = {
+    let makeProps = (~value, ~children, ()) => {
+      "value": value,
+      "children": children,
+    };
+    let make = React.Context.provider(categoriesDispatchContext);
   };
 
   [@react.component]
   let make = (~children) => {
-    let (state, dispatch) = React.useReducer(countReducer, initialState);
-    <CountStateProvider value=state>
-      <CountDispatchProvider value=dispatch> children </CountDispatchProvider>
-    </CountStateProvider>;
+    let (state, dispatch) = React.useReducer(reducer, initialState);
+    <CategoriesStateProvider value=state>
+      <CategoriesDispatchProvider value=dispatch>
+        children
+      </CategoriesDispatchProvider>
+    </CategoriesStateProvider>;
   };
 };

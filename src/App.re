@@ -1,19 +1,14 @@
-module CounterDisplay = {
+module Categories = {
   [@react.component]
   let make = () => {
-    let count = CategoriesContext.CategoriesContext.useCountState();
-    <div> {count.count->string_of_int->React.string} </div>;
-  };
-};
+    let categories = CategoriesContext.CategoriesContext.useCategoriesState();
 
-module CounterButton = {
-  [@react.component]
-  let make = () => {
-    let dispatch = CategoriesContext.CategoriesContext.useCountDispatch();
-    <button
-      onClick={_ => dispatch(CategoriesContext.CategoriesContext.Increment)}>
-      "Count"->React.string
-    </button>;
+    let categoriesText =
+      switch (categories.selectedCategory) {
+      | None => "No category selected"
+      | Some(_) => "Category selected"
+      };
+    <div> categoriesText->React.string </div>;
   };
 };
 
@@ -23,8 +18,7 @@ let make = () => {
     <div className="flex bg-gray-800 text-gray-100">
       <SectionContainer> <Navigation /> </SectionContainer>
     </div>
-    <CounterDisplay />
-    <CounterButton />
+    <Categories />
     <SectionContainer>
       <section className="flex mt-3">
         <aside className="md:w-1/3">
