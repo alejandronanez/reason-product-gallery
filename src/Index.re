@@ -1,3 +1,6 @@
 [%raw {|require('./styles/index.css')|}];
 
-ReactDOMRe.renderToElementWithId(<App />, "app");
+ReactDOMRe.renderToElementWithId(
+  <CategoriesContext> <App /> </CategoriesContext>,
+  "app",
+);
