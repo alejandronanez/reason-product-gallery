@@ -14,6 +14,8 @@ module CategoriesContext = {
 
   let countStateContext = React.createContext(initialState);
   let countDispatchContext = React.createContext(_ => ());
+  let useCountState = () => React.useContext(countStateContext);
+  let useCountDispatch = () => React.useContext(countDispatchContext);
 
   module CountStateProvider = {
     let makeProps = (~value, ~children, ()) => {
@@ -30,9 +32,6 @@ module CategoriesContext = {
     };
     let make = React.Context.provider(countDispatchContext);
   };
-
-  let useCountState = () => React.useContext(countStateContext);
-  let useCountDispatch = () => React.useContext(countDispatchContext);
 
   [@react.component]
   let make = (~children) => {
