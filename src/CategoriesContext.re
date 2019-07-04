@@ -4,7 +4,7 @@ module type CategoriesContext = {
 
   type category = {
     id: string,
-    category: string,
+    name: string,
   };
   type state = {
     categories: list(category),
@@ -27,7 +27,7 @@ module CategoriesContext: CategoriesContext = {
 
   type category = {
     id: string,
-    category: string,
+    name: string,
   };
   type state = {
     categories: list(category),
@@ -36,9 +36,9 @@ module CategoriesContext: CategoriesContext = {
 
   let initialState = {
     categories: [
-      {id: "123", category: "Food"},
-      {id: "456", category: "Drinks"},
-      {id: "789", category: "Toys"},
+      {id: "123", name: "Food"},
+      {id: "456", name: "Drinks"},
+      {id: "789", name: "Toys"},
     ],
     selectedCategory: None,
   };

@@ -1,6 +1,11 @@
 module Categories = {
   [@react.component]
   let make = () => {
+    External.getCategories()
+    |> Js.Promise.then_((value: CategoriesContext.CategoriesContext.category) => {
+         Js.log(value);
+         Js.Promise.resolve({"name": value.name, "id": value.id});
+       });
     let categories = CategoriesContext.CategoriesContext.useCategoriesState();
 
     let categoriesText =
