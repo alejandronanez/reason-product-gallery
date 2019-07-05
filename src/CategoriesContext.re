@@ -32,7 +32,7 @@ module CategoriesContext: CategoriesContext = {
   let reducer = (state, action) =>
     switch (action) {
     | SelectCategory => state
-    | CategoriesFetched(_) => state
+    | CategoriesFetched(categories) => {...state, categories}
     };
 
   let categoriesStateContext = React.createContext(initialState);
@@ -61,15 +61,16 @@ module CategoriesContext: CategoriesContext = {
   let make = (~children) => {
     let (state, dispatch) = React.useReducer(reducer, initialState);
 
-    /**
-    React.useEffect(() => {
+    React.useEffect0(() => {
       External.getCategories()
       |> Js.Promise.then_(value => {
-           Js.log(value);
+           dispatch(CategoriesFetched(Some(value)));
            Js.Promise.resolve(value);
-         });
+         })
+      |> ignore;
+      None;
     });
-     */
+
     <CategoriesStateProvider value=state>
       <CategoriesDispatchProvider value=dispatch>
         children
