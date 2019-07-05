@@ -1,15 +1,12 @@
 module type CategoriesContext = {
-  type action =
-    | SelectCategory;
-
-  type category = {
-    id: string,
-    name: string,
-  };
   type state = {
-    categories: list(category),
-    selectedCategory: option(category),
+    categories: option(list(Data.category)),
+    selectedCategory: option(Data.category),
   };
+
+  type action =
+    | SelectCategory
+    | CategoriesFetched(option(list(Data.category)));
 
   let useCategoriesState: unit => state;
   let useCategoriesDispatch: (unit, action) => unit;
@@ -22,29 +19,20 @@ module type CategoriesContext = {
 };
 
 module CategoriesContext: CategoriesContext = {
-  type action =
-    | SelectCategory;
-
-  type category = {
-    id: string,
-    name: string,
-  };
   type state = {
-    categories: list(category),
-    selectedCategory: option(category),
+    categories: option(list(Data.category)),
+    selectedCategory: option(Data.category),
   };
 
-  let initialState = {
-    categories: [
-      {id: "123", name: "Food"},
-      {id: "456", name: "Drinks"},
-      {id: "789", name: "Toys"},
-    ],
-    selectedCategory: None,
-  };
+  type action =
+    | SelectCategory
+    | CategoriesFetched(option(list(Data.category)));
+
+  let initialState = {categories: None, selectedCategory: None};
   let reducer = (state, action) =>
     switch (action) {
     | SelectCategory => state
+    | CategoriesFetched(_) => state
     };
 
   let categoriesStateContext = React.createContext(initialState);
@@ -72,6 +60,16 @@ module CategoriesContext: CategoriesContext = {
   [@react.component]
   let make = (~children) => {
     let (state, dispatch) = React.useReducer(reducer, initialState);
+
+    /**
+    React.useEffect(() => {
+      External.getCategories()
+      |> Js.Promise.then_(value => {
+           Js.log(value);
+           Js.Promise.resolve(value);
+         });
+    });
+     */
     <CategoriesStateProvider value=state>
       <CategoriesDispatchProvider value=dispatch>
         children

@@ -1,4 +1,3 @@
-type category = CategoriesContext.CategoriesContext.category;
-
 [@bs.module "../js/requests"]
-external getCategories: unit => Js.Promise.t(category) = "getCategories";
+external getCategories: unit => Js.Promise.t(list(Data.category)) =
+  "getCategories";
