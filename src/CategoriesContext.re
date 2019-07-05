@@ -57,19 +57,21 @@ module CategoriesContext: CategoriesContext = {
     let make = React.Context.provider(categoriesDispatchContext);
   };
 
+  let populateCategoriesData = (dispatch, ()) => {
+    External.getCategories()
+    |> Js.Promise.then_(value => {
+         dispatch(CategoriesFetched(Some(value)));
+         Js.Promise.resolve(value);
+       })
+    |> ignore;
+    None;
+  };
+
   [@react.component]
   let make = (~children) => {
     let (state, dispatch) = React.useReducer(reducer, initialState);
 
-    React.useEffect0(() => {
-      External.getCategories()
-      |> Js.Promise.then_(value => {
-           dispatch(CategoriesFetched(Some(value)));
-           Js.Promise.resolve(value);
-         })
-      |> ignore;
-      None;
-    });
+    React.useEffect0(populateCategoriesData(dispatch));
 
     <CategoriesStateProvider value=state>
       <CategoriesDispatchProvider value=dispatch>
