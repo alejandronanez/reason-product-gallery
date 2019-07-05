@@ -59,8 +59,8 @@ module CategoriesContext: CategoriesContext = {
 
   let populateCategoriesData = (dispatch, ()) => {
     External.getCategories()
-    |> Js.Promise.then_(value => {
-         dispatch(CategoriesFetched(Some(value)));
+    |> Js.Promise.then_((value: array(Data.category)) => {
+         Array.to_list(value)->Some->CategoriesFetched->dispatch;
          Js.Promise.resolve(value);
        })
     |> ignore;
