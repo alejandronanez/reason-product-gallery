@@ -1,3 +1,5 @@
+include CategoriesContext;
+
 let getCategories = (~categories: list(Data.category)) =>
   Belt.List.map(categories, category =>
     <li key={category->Data.idGet}>
@@ -9,10 +11,11 @@ let getCategories = (~categories: list(Data.category)) =>
 
 [@react.component]
 let make = () => {
-  let categories = CategoriesContext.CategoriesContext.useCategoriesState();
+  let categories = CategoriesContext.useCategoriesState();
 
   switch (categories.categories) {
-  | None => React.null
-  | Some(categories) => <ul> {getCategories(~categories)} </ul>
+  | Loaded(categories) => <ul> {getCategories(~categories)} </ul>
+  | Loading => <div> "Loading"->React.string </div>
+  | Error => <div> "Error"->React.string </div>
   };
 };

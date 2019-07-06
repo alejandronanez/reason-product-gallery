@@ -1,12 +1,15 @@
 module type CategoriesContext = {
-  type state = {
-    categories: option(list(Data.category)),
-    selectedCategory: option(Data.category),
-  };
+  type categories =
+    | Loading
+    | Error
+    | Loaded(list(Data.category));
+
+  type state = {categories};
 
   type action =
-    | SelectCategory
-    | CategoriesFetched(option(list(Data.category)));
+    | CategoriesFetch
+    | CategoriesFailedToFetch
+    | CategoriesFetched(list(Data.category));
 
   let useCategoriesState: unit => state;
   let useCategoriesDispatch: (unit, action) => unit;
@@ -19,20 +22,24 @@ module type CategoriesContext = {
 };
 
 module CategoriesContext: CategoriesContext = {
-  type state = {
-    categories: option(list(Data.category)),
-    selectedCategory: option(Data.category),
-  };
+  type categories =
+    | Loading
+    | Error
+    | Loaded(list(Data.category));
+
+  type state = {categories};
 
   type action =
-    | SelectCategory
-    | CategoriesFetched(option(list(Data.category)));
+    | CategoriesFetch
+    | CategoriesFailedToFetch
+    | CategoriesFetched(list(Data.category));
 
-  let initialState = {categories: None, selectedCategory: None};
-  let reducer = (state, action) =>
+  let initialState = {categories: Loading};
+  let reducer = (_, action) =>
     switch (action) {
-    | SelectCategory => state
-    | CategoriesFetched(categories) => {...state, categories}
+    | CategoriesFetched(data) => {categories: Loaded(data)}
+    | CategoriesFetch => {categories: Loading}
+    | CategoriesFailedToFetch => {categories: Error}
     };
 
   let categoriesStateContext = React.createContext(initialState);
@@ -60,7 +67,7 @@ module CategoriesContext: CategoriesContext = {
   let populateCategoriesData = (dispatch, ()) => {
     External.getCategories()
     |> Js.Promise.then_((response: array(Data.category)) => {
-         Array.to_list(response)->Some->CategoriesFetched->dispatch;
+         CategoriesFetched(response->Array.to_list)->dispatch;
          Js.Promise.resolve(response);
        })
     |> ignore;
