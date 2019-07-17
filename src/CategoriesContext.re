@@ -70,6 +70,10 @@ module CategoriesContext: CategoriesContext = {
          CategoriesFetched(response->Array.to_list)->dispatch;
          Js.Promise.resolve(response);
        })
+    |> Js.Promise.catch(_ => {
+         dispatch(CategoriesFailedToFetch);
+         Js.Promise.resolve([||]);
+       })
     |> ignore;
     None;
   };
