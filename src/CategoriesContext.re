@@ -4,11 +4,16 @@ module type CategoriesContext = {
     | Error
     | Loaded(list(Data.category));
 
-  type state = {categories};
+  type selectedCategory = option(Data.category);
+
+  type state = {
+    categories,
+    selectedCategory,
+  };
 
   type action =
-    | CategoriesFetch
     | CategoriesFailedToFetch
+    | CategoriesFetch
     | CategoriesFetched(list(Data.category));
 
   let useCategoriesState: unit => state;
@@ -27,19 +32,24 @@ module CategoriesContext: CategoriesContext = {
     | Error
     | Loaded(list(Data.category));
 
-  type state = {categories};
+  type selectedCategory = option(Data.category);
+
+  type state = {
+    categories,
+    selectedCategory,
+  };
 
   type action =
-    | CategoriesFetch
     | CategoriesFailedToFetch
+    | CategoriesFetch
     | CategoriesFetched(list(Data.category));
 
-  let initialState = {categories: Loading};
-  let reducer = (_, action) =>
+  let initialState = {categories: Loading, selectedCategory: None};
+  let reducer = (state, action) =>
     switch (action) {
-    | CategoriesFetched(data) => {categories: Loaded(data)}
-    | CategoriesFetch => {categories: Loading}
-    | CategoriesFailedToFetch => {categories: Error}
+    | CategoriesFetched(data) => {...state, categories: Loaded(data)}
+    | CategoriesFetch => {...state, categories: Loading}
+    | CategoriesFailedToFetch => {...state, categories: Error}
     };
 
   let categoriesStateContext = React.createContext(initialState);
