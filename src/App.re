@@ -23,18 +23,7 @@ let make = () => {
             </ul>
           </nav>
         </aside>
-        <main className="md:w-2/3">
-          <h1 className="text-2xl font-extrabold">
-            "Selected section"->React.string
-          </h1>
-          <ul>
-            <li> "Item #1"->React.string </li>
-            <li> "Item #2"->React.string </li>
-            <li> "Item #3"->React.string </li>
-            <li> "Item #4"->React.string </li>
-            <li> "Item #5"->React.string </li>
-          </ul>
-        </main>
+        <main className="md:w-2/3"> <ProductsList /> </main>
       </section>
     </SectionContainer>
   </div>;
