@@ -1,21 +1,13 @@
 include CategoriesContext;
 
-let getCategories = (~categories: list(Data.category)) =>
-  Belt.List.map(categories, category =>
-    <li key={category->Data.idGet}>
-      {category->Data.nameGet->React.string}
-    </li>
-  )
-  ->Belt.List.toArray
-  ->React.array;
-
 [@react.component]
 let make = () => {
-  let categories = CategoriesContext.useCategoriesState();
+  let {categories: listItems}: CategoriesContext.state =
+    CategoriesContext.useCategoriesState();
 
-  switch (categories.categories) {
-  | Loaded(categories) => <ul> {getCategories(~categories)} </ul>
-  | Loading => <div> "Loading"->React.string </div>
-  | Error => <div> "Error"->React.string </div>
+  switch (listItems) {
+  | Loaded(listItems) => <ul> <CategoriesListItem listItems /> </ul>
+  | Loading => <div> "Loading categories"->React.string </div>
+  | Error => <div> "Error loading categories"->React.string </div>
   };
 };
