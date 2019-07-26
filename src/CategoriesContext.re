@@ -14,7 +14,8 @@ module type CategoriesContext = {
   type action =
     | CategoriesFailedToFetch
     | CategoriesFetch
-    | CategoriesFetched(list(Data.category));
+    | CategoriesFetched(list(Data.category))
+    | SelectCategory(Data.category);
 
   let useCategoriesState: unit => state;
   let useCategoriesDispatch: (unit, action) => unit;
@@ -42,7 +43,8 @@ module CategoriesContext: CategoriesContext = {
   type action =
     | CategoriesFailedToFetch
     | CategoriesFetch
-    | CategoriesFetched(list(Data.category));
+    | CategoriesFetched(list(Data.category))
+    | SelectCategory(Data.category);
 
   let initialState = {categories: Loading, selectedCategory: None};
   let reducer = (state, action) =>
@@ -50,6 +52,10 @@ module CategoriesContext: CategoriesContext = {
     | CategoriesFetched(data) => {...state, categories: Loaded(data)}
     | CategoriesFetch => {...state, categories: Loading}
     | CategoriesFailedToFetch => {...state, categories: Error}
+    | SelectCategory(selectedCategory) => {
+        ...state,
+        selectedCategory: Some(selectedCategory),
+      }
     };
 
   let categoriesStateContext = React.createContext(initialState);
@@ -78,6 +84,7 @@ module CategoriesContext: CategoriesContext = {
     External.getCategories()
     |> Js.Promise.then_((response: array(Data.category)) => {
          CategoriesFetched(response->Array.to_list)->dispatch;
+         SelectCategory(response->Array.get(0))->dispatch;
          Js.Promise.resolve(response);
        })
     |> Js.Promise.catch(_ => {
