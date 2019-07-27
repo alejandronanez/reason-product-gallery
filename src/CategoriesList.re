@@ -4,6 +4,13 @@ include CategoriesContext;
 let make = () => {
   let {categories: listItems, selectedCategory}: CategoriesContext.state =
     CategoriesContext.useCategoriesState();
+  let categoriesDispatch = CategoriesContext.useCategoriesDispatch();
+
+  let handleClick = (listItem, e) => {
+    ReactEvent.Synthetic.preventDefault(e);
+
+    categoriesDispatch(CategoriesContext.SelectCategory(listItem));
+  };
 
   switch (listItems) {
   | Loaded(listItems) =>
@@ -14,6 +21,7 @@ let make = () => {
              key={listItem->Data.idGet}
              listItem
              selectedCategory
+             onClick={handleClick(listItem)}
            />
          )
        ->Belt.List.toArray

@@ -11,8 +11,8 @@ let getActiveClass = (~listItem, ~selectedCategory) => {
 };
 
 [@react.component]
-let make = (~listItem, ~selectedCategory) => {
-  <li className={getActiveClass(~listItem, ~selectedCategory)}>
+let make = (~listItem, ~selectedCategory, ~onClick) => {
+  <li className={getActiveClass(~listItem, ~selectedCategory)} onClick>
     {listItem->Data.nameGet->React.string}
   </li>;
 };
