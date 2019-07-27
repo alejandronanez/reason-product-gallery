@@ -2,9 +2,9 @@ module type CategoriesContext = {
   type categories =
     | Loading
     | Error
-    | Loaded(list(Data.category));
+    | Loaded(list(Data.Category.category));
 
-  type selectedCategory = option(Data.category);
+  type selectedCategory = option(Data.Category.category);
 
   type state = {
     categories,
@@ -14,8 +14,8 @@ module type CategoriesContext = {
   type action =
     | CategoriesFailedToFetch
     | CategoriesFetch
-    | CategoriesFetched(list(Data.category))
-    | SelectCategory(Data.category);
+    | CategoriesFetched(list(Data.Category.category))
+    | SelectCategory(Data.Category.category);
 
   let useCategoriesState: unit => state;
   let useCategoriesDispatch: (unit, action) => unit;
@@ -31,9 +31,9 @@ module CategoriesContext: CategoriesContext = {
   type categories =
     | Loading
     | Error
-    | Loaded(list(Data.category));
+    | Loaded(list(Data.Category.category));
 
-  type selectedCategory = option(Data.category);
+  type selectedCategory = option(Data.Category.category);
 
   type state = {
     categories,
@@ -43,8 +43,8 @@ module CategoriesContext: CategoriesContext = {
   type action =
     | CategoriesFailedToFetch
     | CategoriesFetch
-    | CategoriesFetched(list(Data.category))
-    | SelectCategory(Data.category);
+    | CategoriesFetched(list(Data.Category.category))
+    | SelectCategory(Data.Category.category);
 
   let initialState = {categories: Loading, selectedCategory: None};
   let reducer = (state, action) =>
@@ -82,7 +82,7 @@ module CategoriesContext: CategoriesContext = {
 
   let populateCategoriesData = (dispatch, ()) => {
     External.getCategories()
-    |> Js.Promise.then_((response: array(Data.category)) => {
+    |> Js.Promise.then_((response: array(Data.Category.category)) => {
          CategoriesFetched(response->Array.to_list)->dispatch;
          SelectCategory(response->Array.get(0))->dispatch;
          Js.Promise.resolve(response);

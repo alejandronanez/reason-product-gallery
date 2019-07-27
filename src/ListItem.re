@@ -8,6 +8,6 @@ let getActiveClass = (~isActive) => {
 [@react.component]
 let make = (~listItem, ~isActive, ~onClick) => {
   <li className={getActiveClass(~isActive)} onClick>
-    {listItem->Data.nameGet->React.string}
+    {listItem->Data.Category.nameGet->React.string}
   </li>;
 };

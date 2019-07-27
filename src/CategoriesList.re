@@ -3,7 +3,7 @@ include CategoriesContext;
 let getIsActive = (~selectedItem, ~currentItem) => {
   switch (selectedItem) {
   | Some(selectedItem) =>
-    Data.idGet(selectedItem) === Data.idGet(currentItem)
+    Data.Category.idGet(selectedItem) === Data.Category.idGet(currentItem)
   | None => false
   };
 };
@@ -26,7 +26,7 @@ let make = () => {
       {listItems
        ->Belt.List.map(listItem =>
            <ListItem
-             key={listItem->Data.idGet}
+             key={listItem->Data.Category.idGet}
              listItem
              isActive={getIsActive(
                ~selectedItem=selectedCategory,

@@ -7,7 +7,8 @@ let make = () => {
 
   let getSelectedProductName =
     switch (selectedCategory) {
-    | Some(selectedCategoryName) => Data.nameGet(selectedCategoryName)
+    | Some(selectedCategoryName) =>
+      Data.Category.nameGet(selectedCategoryName)
     | None => "Loading"
     };
 
