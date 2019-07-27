@@ -2,7 +2,7 @@ include CategoriesContext;
 
 [@react.component]
 let make = () => {
-  let {categories: listItems}: CategoriesContext.state =
+  let {categories: listItems, selectedCategory}: CategoriesContext.state =
     CategoriesContext.useCategoriesState();
 
   switch (listItems) {
@@ -10,7 +10,11 @@ let make = () => {
     <ul>
       {listItems
        ->Belt.List.map(listItem =>
-           <CategoryListItem key={listItem->Data.idGet} listItem />
+           <CategoryListItem
+             key={listItem->Data.idGet}
+             listItem
+             selectedCategory
+           />
          )
        ->Belt.List.toArray
        ->React.array}
