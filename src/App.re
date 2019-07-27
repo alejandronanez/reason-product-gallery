@@ -5,8 +5,8 @@ let make = () => {
       <SectionContainer> <Navigation /> </SectionContainer>
     </div>
     <SectionContainer>
-      <section className="flex mt-3">
-        <aside className="md:w-1/3">
+      <section className="flex flex-col md:flex-row mt-3">
+        <aside className="sm:w-full md:w-1/3 p-4">
           <nav>
             <h2 className="text-xl font-extrabold">
               "All categories"->React.string
@@ -23,7 +23,7 @@ let make = () => {
             </ul>
           </nav>
         </aside>
-        <main className="md:w-2/3"> <ProductsList /> </main>
+        <main className="md:w-2/3 p-4"> <ProductsList /> </main>
       </section>
     </SectionContainer>
   </div>;
