@@ -1,5 +1,13 @@
 include CategoriesContext;
 
+let getIsActive = (~selectedItem, ~currentItem) => {
+  switch (selectedItem) {
+  | Some(selectedItem) =>
+    Data.idGet(selectedItem) === Data.idGet(currentItem)
+  | None => false
+  };
+};
+
 [@react.component]
 let make = () => {
   let {categories: listItems, selectedCategory}: CategoriesContext.state =
@@ -17,10 +25,13 @@ let make = () => {
     <ul>
       {listItems
        ->Belt.List.map(listItem =>
-           <CategoryListItem
+           <ListItem
              key={listItem->Data.idGet}
              listItem
-             selectedCategory
+             isActive={getIsActive(
+               ~selectedItem=selectedCategory,
+               ~currentItem=listItem,
+             )}
              onClick={handleClick(listItem)}
            />
          )
