@@ -23,7 +23,7 @@ let make = () => {
             </ul>
           </nav>
         </aside>
-        <main className="md:w-2/3 p-4"> <ProductsList /> </main>
+        <main className="md:w-2/3 p-4"> <Products /> </main>
       </section>
     </SectionContainer>
   </div>;

@@ -1,7 +1,7 @@
 module Category = {
   [@bs.deriving abstract]
   type category = {
-    id: string,
+    id: int,
     name: string,
   };
 };

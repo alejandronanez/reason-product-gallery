@@ -13,6 +13,16 @@ module type ProductsContext = {
 
   let useProductsState: unit => state;
   let useProductsDispatch: (unit, action) => unit;
+  let updateProductsForCategory:
+    (
+      ~minPrice: float=?,
+      ~maxPrice: float=?,
+      ~searchText: string=?,
+      ~dispatch: action => 'a,
+      ~categoryId: int,
+      unit
+    ) =>
+    option('b);
 
   [@bs.obj]
   external makeProps:
@@ -63,7 +73,7 @@ module ProductsContext: ProductsContext = {
     let make = React.Context.provider(productsDispatchContext);
   };
 
-  let populateCategoriesData =
+  let updateProductsForCategory =
       (
         ~minPrice=0.0,
         ~maxPrice=0.0,
@@ -89,7 +99,7 @@ module ProductsContext: ProductsContext = {
   let make = (~children) => {
     let (state, dispatch) = React.useReducer(reducer, initialState);
 
-    React.useEffect0(populateCategoriesData(~dispatch, ~categoryId=1));
+    // React.useEffect0(updateProductsForCategory(~dispatch, ~categoryId=1));
 
     <ProductsStateProvider value=state>
       <ProductsDispatchProvider value=dispatch>

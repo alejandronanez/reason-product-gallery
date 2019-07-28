@@ -26,7 +26,7 @@ let make = () => {
       {listItems
        ->Belt.List.map(listItem =>
            <ListItem
-             key={listItem->Data.Category.idGet}
+             key={listItem->Data.Category.idGet->string_of_int}
              listItem
              isActive={getIsActive(
                ~selectedItem=selectedCategory,

@@ -19,6 +19,7 @@ module type CategoriesContext = {
 
   let useCategoriesState: unit => state;
   let useCategoriesDispatch: (unit, action) => unit;
+  let invalidCategoryId: int;
 
   [@bs.obj]
   external makeProps:
@@ -63,6 +64,7 @@ module CategoriesContext: CategoriesContext = {
   let useCategoriesState = () => React.useContext(categoriesStateContext);
   let useCategoriesDispatch = () =>
     React.useContext(categoriesDispatchContext);
+  let invalidCategoryId = (-1);
 
   module CategoriesStateProvider = {
     let makeProps = (~value, ~children, ()) => {

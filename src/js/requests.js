@@ -45,6 +45,7 @@ export async function getProduct(id) {
  */
 export async function getCategories() {
   await requestDelay();
+  console.log(data.categories);
   return data.categories;
 }
 
