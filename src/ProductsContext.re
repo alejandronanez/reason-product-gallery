@@ -65,16 +65,15 @@ module ProductsContext: ProductsContext = {
 
   let populateCategoriesData =
       (
-        dispatch,
-        ~categoryId,
         ~minPrice=0.0,
         ~maxPrice=0.0,
         ~searchText="",
+        ~dispatch,
+        ~categoryId,
         (),
       ) => {
     External.getProducts(~categoryId, ~minPrice, ~maxPrice, ~searchText)
     |> Js.Promise.then_((response: array(Data.Product.product)) => {
-         Js.log("something");
          ProductsFetch->dispatch;
          Js.Promise.resolve(response);
        })
@@ -90,7 +89,7 @@ module ProductsContext: ProductsContext = {
   let make = (~children) => {
     let (state, dispatch) = React.useReducer(reducer, initialState);
 
-    React.useEffect0(populateCategoriesData(dispatch, ~categoryId=1));
+    React.useEffect0(populateCategoriesData(~dispatch, ~categoryId=1));
 
     <ProductsStateProvider value=state>
       <ProductsDispatchProvider value=dispatch>
