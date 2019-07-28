@@ -37,7 +37,7 @@ module ProductsContext: ProductsContext = {
   let initialState = {products: Loading};
   let reducer = (state, action) =>
     switch (action) {
-    | ProductsFetched(data) => state
+    | ProductsFetched(_) => state
     | ProductsFetch => state
     | ProductsFailedToFetch => state
     };
@@ -64,7 +64,14 @@ module ProductsContext: ProductsContext = {
   };
 
   let populateCategoriesData =
-      (dispatch, ~minPrice=0.0, ~maxPrice=0.0, ~searchText="", ~categoryId) => {
+      (
+        dispatch,
+        ~categoryId,
+        ~minPrice=0.0,
+        ~maxPrice=0.0,
+        ~searchText="",
+        (),
+      ) => {
     External.getProducts(~categoryId, ~minPrice, ~maxPrice, ~searchText)
     |> Js.Promise.then_((response: array(Data.Product.product)) => {
          Js.log("something");
