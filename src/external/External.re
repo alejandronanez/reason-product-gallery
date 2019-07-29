@@ -6,9 +6,9 @@ external getCategories: unit => Js.Promise.t(array(Data.Category.category)) =
 external getProducts:
   (
     ~categoryId: int,
-    ~minPrice: float=?,
-    ~maxPrice: float=?,
-    ~searchText: string=?
+    ~minPrice: option(float),
+    ~maxPrice: option(float),
+    ~searchText: option(string)
   ) =>
   Js.Promise.t(array(Data.Product.product)) =
   "getProducts";
