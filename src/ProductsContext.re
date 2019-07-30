@@ -75,7 +75,8 @@ module ProductsContext: ProductsContext = {
 
   let updateProductsForCategory =
       (~minPrice=?, ~maxPrice=?, ~searchText=?, ~dispatch, ~categoryId, ()) => {
-    External.productToJs({categoryId, minPrice, maxPrice, searchText})
+    {categoryId, minPrice, maxPrice, searchText}
+    ->External.productToJs
     ->External.getProducts
     |> Js.Promise.then_(response => {
          ProductsFetch->dispatch;

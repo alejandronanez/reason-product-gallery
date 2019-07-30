@@ -19,4 +19,5 @@ type productObj = {
 };
 
 [@bs.module "../js/requests"]
-external getProducts: productObj => Js.Promise.t(product) = "getProducts";
+external getProducts: productObj => Js.Promise.t(array(product)) =
+  "getProducts";
