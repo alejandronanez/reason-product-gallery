@@ -75,14 +75,15 @@ module ProductsContext: ProductsContext = {
 
   let updateProductsForCategory =
       (~minPrice=?, ~maxPrice=?, ~searchText=?, ~dispatch, ~categoryId, ()) => {
-    External.getProducts(~categoryId, ~minPrice, ~maxPrice, ~searchText)
-    |> Js.Promise.then_((response: array(Data.Product.product)) => {
+    External.productToJs({categoryId, minPrice, maxPrice, searchText})
+    ->External.getProducts
+    |> Js.Promise.then_(response => {
          ProductsFetch->dispatch;
          Js.Promise.resolve(response);
        })
     |> Js.Promise.catch(_ => {
          dispatch(ProductsFailedToFetch);
-         Js.Promise.resolve([||]);
+         Js.Promise.reject(Js.Exn.raiseError("Failed to fetch products"));
        })
     |> ignore;
     None;
@@ -91,8 +92,6 @@ module ProductsContext: ProductsContext = {
   [@react.component]
   let make = (~children) => {
     let (state, dispatch) = React.useReducer(reducer, initialState);
-
-    // React.useEffect0(updateProductsForCategory(~dispatch, ~categoryId=1));
 
     <ProductsStateProvider value=state>
       <ProductsDispatchProvider value=dispatch>
