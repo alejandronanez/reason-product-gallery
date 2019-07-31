@@ -22,4 +22,14 @@ module Product = {
     images: image,
     categoryId: int,
   };
+
+  [@bs.deriving {jsConverter: newType}]
+  type productInput = {
+    categoryId: int,
+    minPrice: option(float),
+    maxPrice: option(float),
+    searchText: option(string),
+  };
+
+  type productInputObj = abs_productInput;
 };

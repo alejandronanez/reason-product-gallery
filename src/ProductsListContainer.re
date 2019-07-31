@@ -4,6 +4,7 @@ include CategoriesContext;
 [@react.component]
 let make = (~categoryId) => {
   let productsDispatch = ProductsContext.useProductsDispatch();
+  let {products}: ProductsContext.state = ProductsContext.useProductsState();
   let updateProductsForCategory = ProductsContext.updateProductsForCategory;
 
   React.useEffect1(
@@ -17,5 +18,5 @@ let make = (~categoryId) => {
     [|categoryId|],
   );
 
-  <ProductsList products="Something" />;
+  <ProductsList products />;
 };
