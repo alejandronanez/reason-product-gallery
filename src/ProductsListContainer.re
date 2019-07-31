@@ -18,5 +18,9 @@ let make = (~categoryId) => {
     [|categoryId|],
   );
 
-  <ProductsList products />;
+  switch (products) {
+  | Loading => <Loading />
+  | Loaded(products) => <ProductsList products />
+  | Error => <Error />
+  };
 };
