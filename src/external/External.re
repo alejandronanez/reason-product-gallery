@@ -4,6 +4,5 @@ external getCategories: unit => Js.Promise.t(array(Data.Category.category)) =
 
 [@bs.module "../js/requests"]
 external getProducts:
-  Data.Product.productInputObj =>
-  Js.Promise.t(array(Data.Product.productInputObj)) =
+  Data.Product.productInputObj => Js.Promise.t(array(Data.Product.product)) =
   "getProducts";

@@ -45,11 +45,11 @@ module ProductsContext: ProductsContext = {
     | ProductsFetched(list(Data.Product.product));
 
   let initialState = {products: Loading};
-  let reducer = (state, action) =>
+  let reducer = (_state, action) =>
     switch (action) {
-    | ProductsFetched(_) => state
-    | ProductsFetch => state
-    | ProductsFailedToFetch => state
+    | ProductsFetched(products) => {products: Loaded(products)}
+    | ProductsFetch => {products: Loading}
+    | ProductsFailedToFetch => {products: Error}
     };
 
   let productsStateContext = React.createContext(initialState);
@@ -79,7 +79,7 @@ module ProductsContext: ProductsContext = {
     ->Data.Product.productInputToJs
     ->External.getProducts
     |> Js.Promise.then_(response => {
-         ProductsFetch->dispatch;
+         response->Array.to_list->ProductsFetched->dispatch;
          Js.Promise.resolve(response);
        })
     |> Js.Promise.catch(_ => {
