@@ -1,11 +1,17 @@
 [@react.component]
-let make = (~products) => {
-  Js.log(products);
+let make = (~products: list(Data.Product.product)) => {
   <ul>
-    <li> "Item #1"->React.string </li>
-    <li> "Item #2"->React.string </li>
-    <li> "Item #3"->React.string </li>
-    <li> "Item #4"->React.string </li>
-    <li> "Item #5"->React.string </li>
+    {products
+     ->Belt.List.map(product =>
+         <li key={Data.Product.idGet(product)->string_of_int}>
+           <ProductCard
+             name={Data.Product.nameGet(product)}
+             image={Data.Product.mediumGet(Data.Product.imagesGet(product))}
+             description={Data.Product.descriptionGet(product)}
+           />
+         </li>
+       )
+     ->Belt.List.toArray
+     ->React.array}
   </ul>;
 };
