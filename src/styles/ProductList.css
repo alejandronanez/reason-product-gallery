@@ -1,0 +1,20 @@
+.ProductList {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 10px;
+}
+
+@media (min-width: 768px) {
+  .ProductList {
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 20px;
+    grid-row-gap: 10px;
+  } 
+}
+
+@media (min-width: 1280px) {
+  .ProductList {
+    grid-template-columns: 1fr 1fr 1fr;
+  } 
+}
